@@ -16,7 +16,7 @@
             <div class="title">鱼 OJ</div>
           </div>
         </a-menu-item>
-        <a-menu-item v-for="item in routes" :key="item.path">
+        <a-menu-item v-for="item in visibleMenu" :key="item.path">
           {{ item.name }}
         </a-menu-item>
       </a-menu>
@@ -34,7 +34,12 @@ import {routes} from "../router/routes";
 import {useRouter} from "vue-router";
 import {ref} from "vue";
 import {useStore} from "vuex";
-
+const visibleMenu = routes.filter(item=>{
+  if (item.meta?.hideInMenu) {
+    return false;
+  }
+  return true;
+})
 const router = useRouter();
 const store = useStore();
 // 默认主页

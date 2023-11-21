@@ -6,7 +6,7 @@ export default {
   state: () => ({
     loginUser: {
       userName: "lanshu",
-      role: "notlogin"
+      userRole: "admin"
     },
   }),
   mutations: {
@@ -17,7 +17,7 @@ export default {
   actions: {
     async getLoginUser({ commit, state }, payload) {
       // 从远程请求获取登录信息
-      commit("updateUser", { username: "lanshu" });
+      commit("updateUser", payload);
     },
   },
 } as StoreOptions<any>;

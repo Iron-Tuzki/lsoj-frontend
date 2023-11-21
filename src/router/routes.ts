@@ -3,17 +3,24 @@ import HelloWorld from "@/components/HelloWorld.vue";
 import AboutView from "@/views/AboutView.vue";
 import adminView from "@/views/AdminView.vue";
 import NoAuthView from "@/views/NoAuthView.vue";
+import ACCESS_ENUM from "@/access/accessEnum";
 
 export const routes: Array<RouteRecordRaw> = [
   {
     path: "/home",
     name: "浏览题目",
     component: HelloWorld,
+    meta: {
+      access: ACCESS_ENUM.USER,
+    },
   },
   {
     path: "/about",
     name: "我的信息",
-    component: AboutView
+    component: AboutView,
+    meta: {
+      access: ACCESS_ENUM.USER
+    }
   },
 
   {
@@ -21,8 +28,8 @@ export const routes: Array<RouteRecordRaw> = [
     name: "管理员界面",
     component: adminView,
     meta: {
-      access: "canAdmin"
-    }
+      access: ACCESS_ENUM.ADMIN
+    },
   },
   {
     path: "/noAuth",
@@ -31,5 +38,5 @@ export const routes: Array<RouteRecordRaw> = [
     meta: {
       hideInMenu: true,
     },
-  }
+  },
 ];

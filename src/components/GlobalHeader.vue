@@ -32,22 +32,31 @@
 <script setup lang="ts">
 import {routes} from "../router/routes";
 import {useRouter} from "vue-router";
-import {ref} from "vue";
+import {computed, ref} from "vue";
 import {useStore} from "vuex";
-const visibleMenu = routes.filter(item=>{
-  if (item.meta?.hideInMenu) {
-    return false;
-  }
-  return true;
-})
+import checkAccess from "@/access/checkAccess";
+
 const router = useRouter();
 const store = useStore();
 // 默认主页
 const selectedkeys = ref(['/']);
+// 计算属性，动态
+const visibleMenu = computed(()=> {
+  return routes.filter(item=>{
+    if (item.meta?.hideInMenu) {
+      return false;
+    }
+    if (!checkAccess(store.state.user.loginUser, item.meta?.access as string)) {
+      return false;
+    }
+    // 根据权限过滤菜单
+    return true;
+  })
+})
+
 //路由跳转后，更新菜单高亮
 router.afterEach((to, from, failure) => {
   selectedkeys.value = [to.path]
-
 })
 
 const doMenuClick = (key: string) => {

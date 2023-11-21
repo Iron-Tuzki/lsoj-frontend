@@ -2,6 +2,7 @@
   <a-row id="globalHeader" align="center" :wrap="false">
     <a-menu
         mode="horizontal"
+        :selected-keys="selectedkeys"
         @menu-item-click="doMenuClick"
     >
       <a-menu-item
@@ -24,11 +25,20 @@
 <script setup lang="ts">
 import {routes} from "../router/routes";
 import {useRouter} from "vue-router";
+import {ref} from "vue";
 
 const router = useRouter();
+// 默认主页
+const selectedkeys = ref(['/']);
+
+router.afterEach((to, from, failure) => {
+  selectedkeys.value = [to.path]
+})
 
 const doMenuClick = (key: string) => {
-  router.push(key);
+  router.push({
+    path: key,
+  });
 }
 </script>
 

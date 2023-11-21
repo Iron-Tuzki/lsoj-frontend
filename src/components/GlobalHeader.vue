@@ -1,24 +1,31 @@
 <template>
   <a-row id="globalHeader" align="center" :wrap="false">
-    <a-menu
-        mode="horizontal"
-        :selected-keys="selectedkeys"
-        @menu-item-click="doMenuClick"
-    >
-      <a-menu-item
-          key="0"
-          :style="{ padding: 0, marginRight: '38px' }"
-          disabled
+    <a-col flex="auto">
+      <a-menu
+          mode="horizontal"
+          :selected-keys="selectedkeys"
+          @menu-item-click="doMenuClick"
       >
-        <div class="title-bar">
-          <img class="logo" src="../assets/oj-logo.svg"/>
-          <div class="title">鱼 OJ</div>
-        </div>
-      </a-menu-item>
-      <a-menu-item v-for="item in routes" :key="item.path">
-        {{ item.name }}
-      </a-menu-item>
-    </a-menu>
+        <a-menu-item
+            key="0"
+            :style="{ padding: 0, marginRight: '38px' }"
+            disabled
+        >
+          <div class="title-bar">
+            <img class="logo" src="../assets/oj-logo.svg"/>
+            <div class="title">鱼 OJ</div>
+          </div>
+        </a-menu-item>
+        <a-menu-item v-for="item in routes" :key="item.path">
+          {{ item.name }}
+        </a-menu-item>
+      </a-menu>
+    </a-col>
+    <a-col flex="100px">
+      <div>
+        {{ store.state.user?.loginUser?.userName ?? "未登录" }}
+      </div>
+    </a-col>
   </a-row>
 </template>
 
@@ -26,13 +33,16 @@
 import {routes} from "../router/routes";
 import {useRouter} from "vue-router";
 import {ref} from "vue";
+import {useStore} from "vuex";
 
 const router = useRouter();
+const store = useStore();
 // 默认主页
 const selectedkeys = ref(['/']);
-
+//路由跳转后，更新菜单高亮
 router.afterEach((to, from, failure) => {
   selectedkeys.value = [to.path]
+
 })
 
 const doMenuClick = (key: string) => {

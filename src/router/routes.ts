@@ -11,7 +11,7 @@ export const routes: Array<RouteRecordRaw> = [
     name: "浏览题目",
     component: HelloWorld,
     meta: {
-      access: ACCESS_ENUM.USER,
+      access: ACCESS_ENUM.NOT_LOGIN,
     },
   },
   {

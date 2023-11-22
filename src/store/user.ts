@@ -7,8 +7,7 @@ export default {
   namespaced: true,
   state: () => ({
     loginUser: {
-      userName: "lanshu",
-      userRole: "admin"
+      userName: "未登录",
     },
   }),
   mutations: {

@@ -6,7 +6,7 @@ import checkAccess from "@/access/checkAccess";
 // 鉴权
 router.beforeEach(async (to, from, next) => {
   const loginUser = store.state.user.loginUser;
-  // 自动登录
+  // 获取登录信息
   if (!loginUser || !loginUser.userRole) {
     await store.dispatch("user/getLoginUser");
   }

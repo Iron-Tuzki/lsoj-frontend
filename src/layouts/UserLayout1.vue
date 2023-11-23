@@ -4,7 +4,7 @@
       <a-layout-header class="header">
         <a-space>
           <img src="../assets/oj-logo.svg" class="logo" />
-          <div>鱼 OJ</div>
+          <div>鱼 OJ - 用户模块</div>
         </a-space>
       </a-layout-header>
       <a-layout-content class="content">
@@ -19,28 +19,27 @@
   </div>
 </template>
 
+<script>
+
+</script>
+
 <style scoped>
 #userLayout {
-  text-align: center;
-  background: url("https://gw.alipayobjects.com/zos/rmsportal/FfdJeJRQWjEeGTpqgBKj.png")
-    0% 0% / 100% 100%;
-}
-
-#userLayout .logo {
-  width: 64px;
-  height: 64px;
 }
 
 #userLayout .header {
-  margin-top: 16px;
+  margin-bottom: 16px;
+  box-shadow: #eee 1px 1px 5px;
 }
 
 #userLayout .content {
+  background: linear-gradient(to right, #fefefe, #fff);
   margin-bottom: 16px;
   padding: 20px;
 }
 
 #userLayout .footer {
+  background: #efefef;
   padding: 16px;
   position: sticky;
   bottom: 0;
@@ -49,4 +48,4 @@
   text-align: center;
 }
 </style>
-<script></script>
+

@@ -2,7 +2,7 @@
   <div id="userLayout">
     <a-layout style="min-height: 100vh">
       <a-layout-header class="header">
-        <a-space>
+        <a-space style="align-self : center">
           <img src="../assets/oj-logo.svg" class="logo" />
           <div>鱼 OJ - 用户模块</div>
         </a-space>
@@ -25,6 +25,7 @@
 
 <style scoped>
 #userLayout {
+  text-align: center;
 }
 
 #userLayout .header {
@@ -46,6 +47,10 @@
   left: 0;
   right: 0;
   text-align: center;
+}
+
+.logo {
+  height: 48px;
 }
 </style>
 

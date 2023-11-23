@@ -1,7 +1,8 @@
 <template>
   <div id="loginView" align="center">
-    <a-form :model="form" :style="{ width: '600px' }" @submit="handleSubmit">
-      <a-form-item field="name"  label="账户名">
+    <h2>用户登录</h2>
+    <a-form :model="form" :style="{ width: '400px' }" @submit="handleSubmit" auto-label-width label-align="left">
+      <a-form-item field="name" label="账户名">
         <a-input
             v-model="form.userAccount"
             placeholder="please enter your username..."
@@ -11,7 +12,8 @@
         <a-input-password v-model="form.userPassword" placeholder="please enter your password..."/>
       </a-form-item>
       <a-form-item>
-        <a-button html-type="submit">登录</a-button>
+        <a-button html-type="submit" type="primary">登录</a-button>
+        <a-button @click="handleRegister" style="margin-left: 8px">注册</a-button>
       </a-form-item>
     </a-form>
   </div>
@@ -46,5 +48,21 @@ const handleSubmit = async () => {
     message.error(rst.message);
   }
 };
+const handleRegister = () => {
+  router.push({
+    path: "/user/register",
+  })
+};
 
 </script>
+
+<style>
+.flex-container {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.flex-item {
+  margin-left: 8px;
+}
+</style>

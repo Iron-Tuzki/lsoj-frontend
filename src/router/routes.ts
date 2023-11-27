@@ -7,6 +7,7 @@ import ACCESS_ENUM from "@/access/accessEnum";
 import UserLayout1 from "@/layouts/UserLayout1.vue";
 import LoginView from "@/views/user/LoginView.vue";
 import RegisterView from "@/views/user/RegisterView.vue";
+import QuestionsView1 from "@/views/question/QuestionsView1.vue";
 
 export const routes: Array<RouteRecordRaw> = [
   {
@@ -31,9 +32,9 @@ export const routes: Array<RouteRecordRaw> = [
     ]
   },
   {
-    path: "/home",
+    path: "/questions",
     name: "浏览题目",
-    component: HelloWorld,
+    component: QuestionsView1,
     meta: {
       access: ACCESS_ENUM.NOT_LOGIN,
     },

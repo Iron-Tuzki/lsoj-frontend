@@ -8,6 +8,8 @@ import UserLayout1 from "@/layouts/UserLayout1.vue";
 import LoginView from "@/views/user/LoginView.vue";
 import RegisterView from "@/views/user/RegisterView.vue";
 import QuestionsView1 from "@/views/question/QuestionsView1.vue";
+import MdViewer from "@/components/MdViewer.vue";
+import MdEditor from "@/components/MdEditor.vue";
 
 export const routes: Array<RouteRecordRaw> = [
   {
@@ -35,6 +37,14 @@ export const routes: Array<RouteRecordRaw> = [
     path: "/questions",
     name: "浏览题目",
     component: QuestionsView1,
+    meta: {
+      access: ACCESS_ENUM.NOT_LOGIN,
+    },
+  },
+  {
+    path: "/submit",
+    name: "做题页面",
+    component: MdEditor,
     meta: {
       access: ACCESS_ENUM.NOT_LOGIN,
     },

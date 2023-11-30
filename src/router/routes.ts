@@ -10,6 +10,7 @@ import RegisterView from "@/views/user/RegisterView.vue";
 import QuestionsView1 from "@/views/question/QuestionsView1.vue";
 import MdViewer from "@/components/MdViewer.vue";
 import MdEditor from "@/components/MdEditor.vue";
+import CodeEditor1 from "@/components/CodeEditor1.vue";
 
 export const routes: Array<RouteRecordRaw> = [
   {
@@ -44,7 +45,7 @@ export const routes: Array<RouteRecordRaw> = [
   {
     path: "/submit",
     name: "做题页面",
-    component: MdEditor,
+    component: CodeEditor1,
     meta: {
       access: ACCESS_ENUM.NOT_LOGIN,
     },

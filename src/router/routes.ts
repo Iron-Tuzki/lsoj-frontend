@@ -4,10 +4,10 @@ import AboutView from "@/views/AboutView.vue";
 import adminView from "@/views/AdminView.vue";
 import NoAuthView from "@/views/NoAuthView.vue";
 import ACCESS_ENUM from "@/access/accessEnum";
-import UserLayout1 from "@/layouts/UserLayout1.vue";
+import UserLayout from "@/layouts/UserLayout.vue";
 import LoginView from "@/views/user/LoginView.vue";
 import RegisterView from "@/views/user/RegisterView.vue";
-import QuestionsView1 from "@/views/question/QuestionsView1.vue";
+import QuestionsView from "@/views/question/QuestionsView.vue";
 import MdViewer from "@/components/MdViewer.vue";
 import MdEditor from "@/components/MdEditor.vue";
 import CodeEditor1 from "@/components/CodeEditor1.vue";
@@ -16,7 +16,7 @@ export const routes: Array<RouteRecordRaw> = [
   {
     path: "/user",
     name: "用户布局",
-    component: UserLayout1,
+    component: UserLayout,
     meta: {
       hideInMenu: true,
       access: ACCESS_ENUM.NOT_LOGIN
@@ -37,7 +37,7 @@ export const routes: Array<RouteRecordRaw> = [
   {
     path: "/questions",
     name: "浏览题目",
-    component: QuestionsView1,
+    component: QuestionsView,
     meta: {
       access: ACCESS_ENUM.NOT_LOGIN,
     },

@@ -10,7 +10,7 @@ import RegisterView from "@/views/user/RegisterView.vue";
 import QuestionsView from "@/views/question/QuestionsView.vue";
 import MdViewer from "@/components/MdViewer.vue";
 import MdEditor from "@/components/MdEditor.vue";
-import CodeEditor1 from "@/components/CodeEditor1.vue";
+import CodeEditor1 from "@/components/CodeEditor.vue";
 
 export const routes: Array<RouteRecordRaw> = [
   {

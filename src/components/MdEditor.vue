@@ -1,25 +1,28 @@
 <template>
-  <Editor :value="value" :plugins="plugins" @change="handleChange"/>
+  <Editor :value="value" :mode="mode" :plugins="plugins" @change="handleChange"/>
 </template>
 
 <script setup lang="ts">
 import gfm from '@bytemd/plugin-gfm'
 import highlight from "@bytemd/plugin-highlight";
 import {Editor, Viewer} from '@bytemd/vue-next'
-import {ref, withDefaults ,defineProps} from "vue";
+import {ref, withDefaults, defineProps} from "vue";
 
 /**
  * 定义组件属性类型
  */
 interface Props {
-  value: string,
+  value: string;
+  mode?: string;
   handleChange: (v: string) => void
 }
 
 const props = withDefaults(defineProps<Props>(), {
-   value : () => "",
-   handleChange : (v : string) => {
-     console.log(v)  }
+  value: () => "",
+  mode: () => "split",
+  handleChange: (v: string) => {
+    console.log(v)
+  }
 })
 const plugins = [
   gfm(),

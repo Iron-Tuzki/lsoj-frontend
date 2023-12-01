@@ -1,5 +1,5 @@
 <template>
-  <div id="addQuestion" >
+  <div id="addQuestion">
     <a-form :model="form" auto-label-width>
       <a-form-item field="title" label="标题">
         <a-input
@@ -12,7 +12,7 @@
       <a-form-item field="description" label="描述">
         <MdEditor :value="form.description" :handle-change="handleChangeD"></MdEditor>
       </a-form-item>
-      <a-form-item field="tags"  label="标签">
+      <a-form-item field="tags" label="标签">
         <a-input-tag v-model:model-value="form.tags" :style="{width:'320px'}" placeholder="Please Enter" allow-clear/>
       </a-form-item>
       <a-form-item field="example" label="示例">
@@ -54,8 +54,8 @@
 
 <script setup lang="ts">
 
-import {ref, defineProps, withDefaults, defineExpose, reactive} from "vue";
-import {QuestionAddRequest, QuestionControllerService} from "../../../generated";
+import {defineExpose, reactive} from "vue";
+import {JudgeConfig, JudgeCase, QuestionAddRequest, QuestionControllerService} from "../../../generated";
 import message from "@arco-design/web-vue/es/message";
 import MdEditor from "@/components/MdEditor.vue";
 
@@ -86,13 +86,46 @@ const handleChangeD = (v: string) => {
 };
 
 const addOrUpdateQuestion = async () => {
-  console.log("提交");
   const rst = await QuestionControllerService.addQuestionUsingPost(form);
   if (rst.code === 0) {
     message.success("提交成功");
   } else {
     message.error(rst.message);
   }
+};
+
+const queryQuestion = async (id: number) => {
+  const rst = await QuestionControllerService.getQuestionByIdUsingGet(id);
+  if (rst.code === 0) {
+    form.title = rst.data?.title;
+    form.answer = rst.data?.answer;
+    form.description = rst.data?.description;
+    form.judgeConfig = rst.data?.judgeConfig;
+    form.judgeCase = rst.data?.judgeCase;
+    form.example = rst.data?.example;
+    form.tags = rst.data?.tags;
+  } else {
+    message.error("数据不存在");
+  }
+}
+
+const cleanAllInfo = () => {
+  form.title = '';
+  form.answer = '';
+  form.description = '';
+  form.judgeConfig = {
+    memoryLimit: 500,
+    stackLimit: 500,
+    timeLimit: 500
+  };
+  form.judgeCase = [
+    {
+      input: '',
+      output: ''
+    }
+  ];
+  form.example = '';
+  form.tags = [];
 };
 const handleAddCase = () => {
   form.judgeCase?.push({
@@ -106,6 +139,8 @@ const handleDeleteCase = (index: number) => {
 // 暴露子组件方法，给父组件使用
 defineExpose({
   addOrUpdateQuestion,
+  queryQuestion,
+  cleanAllInfo
 })
 </script>
 

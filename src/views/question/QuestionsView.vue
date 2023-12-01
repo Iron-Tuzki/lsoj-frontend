@@ -25,18 +25,29 @@
                   }"
              @page-change="onPageChange"
     >
+      <template #edit="{ record }">
+        <a-space>
+          <a-button type="outline" @click="handleEdit(record)">
+            <icon-edit/>
+          </a-button>
+          <a-button type="outline" status="danger" @click="handleDelete(record)">
+            <icon-delete/>
+          </a-button>
+        </a-space>
+      </template>
 
     </a-table>
-      <a-modal v-model:visible="isFormVisible" @ok="handleOk" @cancel="handleCancel" okText="提交" width="auto">
-        <AddQuestion ref="AddQuestionRef"></AddQuestion>
-      </a-modal>
+    <a-modal v-model:visible="isFormVisible" @ok="handleOk" @cancel="handleCancel" @close="handleClose" okText="提交"
+             width="auto">
+      <AddQuestion ref="AddQuestionRef"></AddQuestion>
+    </a-modal>
 
   </div>
 </template>
 
 <script setup lang="ts">
 
-import {QuestionControllerService, QuestionQueryRequest} from "../../../generated";
+import {QuestionControllerService, QuestionQueryRequest, QuestionVO} from "../../../generated";
 import message from "@arco-design/web-vue/es/message";
 import {onMounted, ref, watchEffect, watch} from "vue";
 import router from "@/router";
@@ -79,7 +90,18 @@ const handleOk = () => {
 };
 const handleCancel = () => {
   isFormVisible.value = false;
-}
+};
+
+const handleClose = () => {
+  AddQuestionRef.value.cleanAllInfo();
+};
+const handleEdit = (record: QuestionVO) => {
+  isFormVisible.value = true;
+  AddQuestionRef.value.queryQuestion(record.id as number);
+};
+const handleDelete = (record: QuestionVO) => {
+  console.log(record);
+};
 
 const onPageChange = (page: number) => {
   searchParams.value = {
@@ -109,23 +131,18 @@ const columns = [
     title: "难度",
     dataIndex: "difficulty",
     width: 160
-
   }, {
     title: "提交人数",
     dataIndex: "submitAmount",
     width: 160
-
-  }, {
-    title: "通过人数",
-    dataIndex: "passAmount",
-    width: 160
-
   }, {
     title: "通过率",
     dataIndex: "passRatio",
     width: 160
-  }
-];
+  }, {
+    title: "操作",
+    slotName: "edit"
+  }];
 </script>
 
 <style scoped>

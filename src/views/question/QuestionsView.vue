@@ -76,6 +76,7 @@ const buttonConfig = ref({
   isShowEdit: true,
   isShowDelete: true,
 })
+let insertFlag = 'add';
 
 const loadData = async () => {
   const res = await QuestionControllerService.listQuestionVoByPageUsingPost(searchParams.value);
@@ -95,11 +96,17 @@ const doQuery = () => {
 
 const handleAdd = () => {
   isFormVisible.value = true;
+  insertFlag = 'add'
 }
-const handleOk = () => {
+const handleOk = async () => {
   // 调用子组件的提交方法
-  AddQuestionRef.value.addOrUpdateQuestion();
-  isFormVisible.value = false;
+  const rst = await AddQuestionRef.value.addOrUpdateQuestion(insertFlag);
+  if (rst.code === 0) {
+    message.success("提交成功");
+    await loadData();
+  } else {
+    message.error(rst.message);
+  }
 };
 const handleCancel = () => {
   isFormVisible.value = false;
@@ -110,6 +117,7 @@ const handleClose = () => {
 };
 const handleEdit = (record: QuestionVO) => {
   isFormVisible.value = true;
+  insertFlag = 'update';
   AddQuestionRef.value.queryQuestion(record.id as number);
 };
 const handleDelete = (record: QuestionVO) => {

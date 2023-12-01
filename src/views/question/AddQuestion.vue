@@ -24,15 +24,15 @@
         <a-space direction="vertical" fill>
           <a-form-item field="judgeConfig.timeLimit" label="时间限制">
             <a-input-number v-model:model-value="form.judgeConfig.timeLimit"
-                            :style="{width:'320px'}" step="100" mode="button"/>
+                            :style="{width:'320px'}" step=100 mode="button"/>
           </a-form-item>
           <a-form-item field="judgeConfig.memoryLimit" label="内存限制">
             <a-input-number v-model:model-value="form.judgeConfig.memoryLimit"
-                            :style="{width:'320px'}" step="100" mode="button"/>
+                            :style="{width:'320px'}" step=100 mode="button"/>
           </a-form-item>
           <a-form-item field="judgeConfig.stackLimit" label="堆栈限制">
             <a-input-number v-model:model-value="form.judgeConfig.stackLimit"
-                            :style="{width:'320px'}" step="100" mode="button"/>
+                            :style="{width:'320px'}" step=100 mode="button"/>
           </a-form-item>
         </a-space>
       </a-form-item>
@@ -60,6 +60,7 @@ import message from "@arco-design/web-vue/es/message";
 import MdEditor from "@/components/MdEditor.vue";
 
 const form = reactive({
+  id: '',
   title: '',
   answer: '',
   description: '',
@@ -76,7 +77,7 @@ const form = reactive({
     timeLimit: 500
   },
   tags: [],
-}) as QuestionAddRequest;
+}) as any;
 
 const handleChangeA = (v: string) => {
   form.answer = v;
@@ -85,18 +86,20 @@ const handleChangeD = (v: string) => {
   form.description = v;
 };
 
-const addOrUpdateQuestion = async () => {
-  const rst = await QuestionControllerService.addQuestionUsingPost(form);
-  if (rst.code === 0) {
-    message.success("提交成功");
+const addOrUpdateQuestion = async (insertFlag: string) => {
+  let rst;
+  if (insertFlag === 'add') {
+    rst = await QuestionControllerService.addQuestionUsingPost(form);
   } else {
-    message.error(rst.message);
+    rst = await QuestionControllerService.updateQuestionUsingPost(form);
   }
+  return rst;
 };
 
 const queryQuestion = async (id: number) => {
   const rst = await QuestionControllerService.getQuestionByIdUsingGet(id);
   if (rst.code === 0) {
+    form.id = rst.data?.id;
     form.title = rst.data?.title;
     form.answer = rst.data?.answer;
     form.description = rst.data?.description;

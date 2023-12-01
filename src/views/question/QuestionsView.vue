@@ -25,6 +25,11 @@
                   }"
              @page-change="onPageChange"
     >
+      <template #tags="{ record}">
+        <a-space wrap>
+          <a-tag v-for="(tag,index) in record.tags " :key="index" color="blue">{{tag}}</a-tag>
+        </a-space>
+      </template>
       <template #edit="{ record }">
         <a-space>
           <a-button type="outline" @click="handleEdit(record)" v-if="buttonConfig.isShowEdit">
@@ -68,6 +73,7 @@ const searchParams = ref<QuestionQueryRequest>({
   tags: [],
   pageSize: 3,
   current: 1,
+  sortField: "createTime"
 });
 const dataList = ref([]);
 const isFormVisible = ref(false);
@@ -172,7 +178,7 @@ const columns = [
     dataIndex: "description",
   }, {
     title: "标签",
-    dataIndex: "tags",
+    slotName: "tags",
   }, {
     title: "难度",
     dataIndex: "difficulty",

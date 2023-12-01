@@ -11,7 +11,7 @@
         <a-button type="primary" @click="doQuery" style="margin-right: 10px">
           <icon-search/>
         </a-button>
-        <a-button type="primary" @click="handleAdd">
+        <a-button type="primary" @click="handleAdd" v-if="buttonConfig.isShowAdd">
           <icon-plus/>
         </a-button>
       </a-form-item>
@@ -27,11 +27,14 @@
     >
       <template #edit="{ record }">
         <a-space>
-          <a-button type="outline" @click="handleEdit(record)">
+          <a-button type="outline" @click="handleEdit(record)" v-if="buttonConfig.isShowEdit">
             <icon-edit/>
           </a-button>
-          <a-button type="outline" status="danger" @click="handleDelete(record)">
+          <a-button type="outline" status="danger" @click="handleDelete(record)" v-if="buttonConfig.isShowDelete">
             <icon-delete/>
+          </a-button>
+          <a-button type="primary" @click="toQuestionPage(record)">
+            做题
           </a-button>
         </a-space>
       </template>
@@ -50,9 +53,13 @@
 import {QuestionControllerService, QuestionQueryRequest, QuestionVO} from "../../../generated";
 import message from "@arco-design/web-vue/es/message";
 import {onMounted, ref, watchEffect, watch} from "vue";
-import router from "@/router";
 import AddQuestion from "@/views/question/AddQuestion.vue";
+import {useRouter} from "vue-router";
+import {useStore} from "vuex";
+import ACCESS_ENUM from "@/access/accessEnum";
 
+const router = useRouter();
+const store = useStore();
 const tableRef = ref();
 const AddQuestionRef = ref();
 const totalAmount = ref(0);
@@ -64,6 +71,12 @@ const searchParams = ref<QuestionQueryRequest>({
 });
 const dataList = ref([]);
 const isFormVisible = ref(false);
+const buttonConfig = ref({
+  isShowAdd: true,
+  isShowEdit: true,
+  isShowDelete: true,
+})
+
 const loadData = async () => {
   const res = await QuestionControllerService.listQuestionVoByPageUsingPost(searchParams.value);
   if (res.code === 0) {
@@ -102,6 +115,15 @@ const handleEdit = (record: QuestionVO) => {
 const handleDelete = (record: QuestionVO) => {
   console.log(record);
 };
+/**
+ * 跳转到做题页面
+ * @param question
+ */
+const toQuestionPage = (question: QuestionVO) => {
+  router.push({
+    path: `/view/question/${question.id}`,
+  });
+};
 
 const onPageChange = (page: number) => {
   searchParams.value = {
@@ -115,6 +137,13 @@ watch(searchParams, loadData);
 
 onMounted(() => {
   loadData();
+  const role = store.state.user.loginUser.userRole;
+  if (role === ACCESS_ENUM.USER) {
+    buttonConfig.value.isShowAdd = false;
+    buttonConfig.value.isShowEdit = false;
+    buttonConfig.value.isShowDelete = false;
+  }
+  console.log(role)
 })
 
 const columns = [

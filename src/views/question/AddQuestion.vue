@@ -60,7 +60,6 @@ import message from "@arco-design/web-vue/es/message";
 import MdEditor from "@/components/MdEditor.vue";
 
 const form = reactive({
-  id: '',
   title: '',
   answer: '',
   description: '',

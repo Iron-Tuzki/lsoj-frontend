@@ -1,6 +1,6 @@
 <template>
   <div id="questionsView1">
-    <a-form :model="searchParams" layout="inline">
+    <a-form :model="searchParams" layout="inline" style="margin-bottom: 20px">
       <a-form-item field="title" label="名称" style="min-width: 240px">
         <a-input v-model="searchParams.title" placeholder="请输入名称"/>
       </a-form-item>
@@ -27,7 +27,7 @@
     >
       <template #tags="{ record}">
         <a-space wrap>
-          <a-tag v-for="(tag,index) in record.tags " :key="index" color="blue">{{tag}}</a-tag>
+          <a-tag v-for="(tag,index) in record.tags " :key="index" color="blue">{{ tag }}</a-tag>
         </a-space>
       </template>
       <template #edit="{ record }">
@@ -73,7 +73,8 @@ const searchParams = ref<QuestionQueryRequest>({
   tags: [],
   pageSize: 3,
   current: 1,
-  sortField: "createTime"
+  sortField: "createTime",
+  sortOrder: "desc"
 });
 const dataList = ref([]);
 const isFormVisible = ref(false);
@@ -173,27 +174,30 @@ const columns = [
   {
     title: "标题",
     dataIndex: "title",
+    width: 150,
   }, {
     title: "描述",
     dataIndex: "description",
   }, {
     title: "标签",
     slotName: "tags",
+    width: 150
   }, {
     title: "难度",
     dataIndex: "difficulty",
-    width: 160
+    width: 100, align: 'center'
   }, {
     title: "提交人数",
     dataIndex: "submitAmount",
-    width: 160
+    width: 100, align: 'center'
   }, {
     title: "通过率",
     dataIndex: "passRatio",
-    width: 160
+    width: 100, align: 'center'
   }, {
     title: "操作",
-    slotName: "edit"
+    slotName: "edit",
+    width: 130, align: 'center'
   }];
 </script>
 

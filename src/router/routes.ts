@@ -1,5 +1,4 @@
 import { RouteRecordRaw } from "vue-router";
-import HelloWorld from "@/components/HelloWorld.vue";
 import AboutView from "@/views/AboutView.vue";
 import adminView from "@/views/AdminView.vue";
 import NoAuthView from "@/views/NoAuthView.vue";
@@ -8,9 +7,7 @@ import UserLayout from "@/layouts/UserLayout.vue";
 import LoginView from "@/views/user/LoginView.vue";
 import RegisterView from "@/views/user/RegisterView.vue";
 import QuestionsView from "@/views/question/QuestionsView.vue";
-import MdViewer from "@/components/MdViewer.vue";
-import MdEditor from "@/components/MdEditor.vue";
-import CodeEditor1 from "@/components/CodeEditor.vue";
+import SubmitQuestionView from "@/views/question/SubmitQuestionView.vue";
 
 export const routes: Array<RouteRecordRaw> = [
   {
@@ -43,11 +40,13 @@ export const routes: Array<RouteRecordRaw> = [
     },
   },
   {
-    path: "/submit",
-    name: "做题页面",
-    component: CodeEditor1,
+    path: "/view/question/:id",
+    name: "在线做题",
+    component: SubmitQuestionView,
+    props: true,
     meta: {
-      access: ACCESS_ENUM.NOT_LOGIN,
+      access: ACCESS_ENUM.USER,
+      hideInMenu: true,
     },
   },
   {

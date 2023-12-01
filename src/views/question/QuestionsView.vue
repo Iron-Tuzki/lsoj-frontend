@@ -33,7 +33,7 @@
           <a-button type="outline" status="danger" @click="handleDelete(record)" v-if="buttonConfig.isShowDelete">
             <icon-delete/>
           </a-button>
-          <a-button type="primary" @click="toQuestionPage(record)">
+          <a-button type="outline" @click="toQuestionPage(record)">
             做题
           </a-button>
         </a-space>
@@ -50,7 +50,7 @@
 
 <script setup lang="ts">
 
-import {QuestionControllerService, QuestionQueryRequest, QuestionVO} from "../../../generated";
+import {DeleteRequest, QuestionControllerService, QuestionQueryRequest, QuestionVO} from "../../../generated";
 import message from "@arco-design/web-vue/es/message";
 import {onMounted, ref, watchEffect, watch} from "vue";
 import AddQuestion from "@/views/question/AddQuestion.vue";
@@ -113,7 +113,16 @@ const handleEdit = (record: QuestionVO) => {
   AddQuestionRef.value.queryQuestion(record.id as number);
 };
 const handleDelete = (record: QuestionVO) => {
-  console.log(record);
+  const confirmed = window.confirm('确定要删除此记录吗？');
+  if (confirmed) {
+    const rst = QuestionControllerService.deleteQuestionUsingPost({id: record.id});
+    if (rst.code === 0) {
+      message.success("删除成功");
+      loadData();
+    } else {
+      message.error(rst.message)
+    }
+  }
 };
 /**
  * 跳转到做题页面

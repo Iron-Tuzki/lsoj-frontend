@@ -32,12 +32,17 @@ export const routes: Array<RouteRecordRaw> = [
     ]
   },
   {
+    path: "/",
+    name: "主页",
+    component: QuestionsView,
+    meta: {
+      hideInMenu: true,
+    },
+  },
+  {
     path: "/questions",
     name: "浏览题目",
     component: QuestionsView,
-    meta: {
-      access: ACCESS_ENUM.NOT_LOGIN,
-    },
   },
   {
     path: "/view/question/:id",

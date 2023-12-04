@@ -62,6 +62,7 @@ import AddQuestion from "@/views/question/AddQuestion.vue";
 import {useRouter} from "vue-router";
 import {useStore} from "vuex";
 import ACCESS_ENUM from "@/access/accessEnum";
+import AccessEnum from "@/access/accessEnum";
 
 const router = useRouter();
 const store = useStore();
@@ -127,13 +128,13 @@ const handleEdit = (record: QuestionVO) => {
   insertFlag = 'update';
   AddQuestionRef.value.queryQuestion(record.id as number);
 };
-const handleDelete = (record: QuestionVO) => {
+const handleDelete = async (record: QuestionVO) => {
   const confirmed = window.confirm('确定要删除此记录吗？');
   if (confirmed) {
-    const rst = QuestionControllerService.deleteQuestionUsingPost({id: record.id});
+    const rst = await QuestionControllerService.deleteQuestionUsingPost({id: record.id});
     if (rst.code === 0) {
       message.success("删除成功");
-      loadData();
+      await loadData();
     } else {
       message.error(rst.message)
     }
@@ -162,7 +163,7 @@ watch(searchParams, loadData);
 onMounted(() => {
   loadData();
   const role = store.state.user.loginUser.userRole;
-  if (role === ACCESS_ENUM.USER) {
+  if (role === ACCESS_ENUM.USER || role === ACCESS_ENUM.NOT_LOGIN) {
     buttonConfig.value.isShowAdd = false;
     buttonConfig.value.isShowEdit = false;
     buttonConfig.value.isShowDelete = false;

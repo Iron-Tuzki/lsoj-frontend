@@ -23,7 +23,14 @@
     </a-col>
     <a-col flex="100px">
       <div>
-        {{ store.state.user?.loginUser?.userName ?? "未登录" }}
+        <a-dropdown @select="handleSelect">
+          <a-button >{{ store.state.user?.loginUser?.userName ?? "请登录" }}</a-button>
+          <template #content>
+            <a-doption :value="{ value: 'login' }" v-if="store.state.user?.loginUser?.userName === '未登录'">登录</a-doption>
+            <a-doption :value="{ value: 'myInfo' }" v-if="store.state.user?.loginUser?.userName !== '未登录'">个人信息</a-doption>
+            <a-doption :value="{ value: 'logout' }" v-if="store.state.user?.loginUser?.userName !== '未登录'">注销</a-doption>
+          </template>
+        </a-dropdown>
       </div>
     </a-col>
   </a-row>
@@ -35,6 +42,8 @@ import {useRouter} from "vue-router";
 import {computed, ref} from "vue";
 import {useStore} from "vuex";
 import checkAccess from "@/access/checkAccess";
+import {UserControllerService} from "../../generated";
+import message from "@arco-design/web-vue/es/message";
 
 const router = useRouter();
 const store = useStore();
@@ -64,6 +73,23 @@ const doMenuClick = (key: string) => {
     path: key,
   });
 }
+const handleSelect = async (value: any) => {
+  if (value.value === 'login') {
+    await router.push({
+      path: "/user/login"
+    });
+  } else if (value.value === 'logout') {
+    const rst = await UserControllerService.userLogoutUsingPost();
+    if (rst.code === 0) {
+      message.success("注销成功");
+      await router.push({
+        path: "/user/login"
+      });
+    } else {
+      message.error(rst.message);
+    }
+  }
+};
 </script>
 
 <style scoped>

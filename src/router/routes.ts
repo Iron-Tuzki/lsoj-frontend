@@ -50,7 +50,7 @@ export const routes: Array<RouteRecordRaw> = [
     },
   },
   {
-    path: "/about",
+    path: "/myInfo",
     name: "我的信息",
     component: AboutView,
     meta: {

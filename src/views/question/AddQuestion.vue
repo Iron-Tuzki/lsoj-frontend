@@ -86,26 +86,26 @@ const handleChangeD = (v: string) => {
 };
 
 const addOrUpdateQuestion = async (insertFlag: string) => {
-  let rst;
+  let res;
   if (insertFlag === 'add') {
-    rst = await QuestionControllerService.addQuestionUsingPost(form);
+    res = await QuestionControllerService.addQuestionUsingPost(form);
   } else {
-    rst = await QuestionControllerService.updateQuestionUsingPost(form);
+    res = await QuestionControllerService.updateQuestionUsingPost(form);
   }
-  return rst;
+  return res;
 };
 
 const queryQuestion = async (id: number) => {
-  const rst = await QuestionControllerService.getQuestionByIdUsingGet(id);
-  if (rst.code === 0) {
-    form.id = rst.data?.id;
-    form.title = rst.data?.title;
-    form.answer = rst.data?.answer;
-    form.description = rst.data?.description;
-    form.judgeConfig = rst.data?.judgeConfig;
-    form.judgeCase = rst.data?.judgeCase;
-    form.example = rst.data?.example;
-    form.tags = rst.data?.tags;
+  const res = await QuestionControllerService.getQuestionByIdUsingGet(id);
+  if (res.code === 0) {
+    form.id = res.data?.id;
+    form.title = res.data?.title;
+    form.answer = res.data?.answer;
+    form.description = res.data?.description;
+    form.judgeConfig = res.data?.judgeConfig;
+    form.judgeCase = res.data?.judgeCase;
+    form.example = res.data?.example;
+    form.tags = res.data?.tags;
   } else {
     message.error("数据不存在");
   }

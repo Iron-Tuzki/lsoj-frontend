@@ -5,10 +5,11 @@ import checkAccess from "@/access/checkAccess";
 
 // 鉴权
 router.beforeEach(async (to, from, next) => {
-  const loginUser = store.state.user.loginUser;
+  let loginUser = store.state.user.loginUser;
   // 获取登录信息
-  if (!loginUser || !loginUser.userRole) {
+  if (!loginUser || !loginUser.userRole || loginUser.userRole === ACCESS_ENUM.NOT_LOGIN ) {
     await store.dispatch("user/getLoginUser");
+    loginUser = store.state.user.loginUser;
   }
   // 需要登录的页面
   const needAccess = (to.meta?.access as string) ?? ACCESS_ENUM.NOT_LOGIN;

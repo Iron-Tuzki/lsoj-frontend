@@ -1,5 +1,5 @@
 <template>
-  <div id="code-editor" ref="container" style="min-height: 800px">
+  <div id="code-editor" ref="container" style="min-height: 400px;height: 90vh" >
 
   </div>
 </template>

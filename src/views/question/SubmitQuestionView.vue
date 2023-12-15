@@ -9,7 +9,6 @@
                 <a-tag v-for="(tag,index) in data.tags " :key="index" color="blue">{{ tag }}</a-tag>
               </a-space>
             </template>
-            <MdViewer :value="data?.description"/>
             <a-descriptions title="判题条件" :column="{xs:1, md:3, lg:4}">
               <a-descriptions-item label="时间限制" :span="1">
                 {{ data?.judgeConfig.timeLimit ?? 0 }}
@@ -21,16 +20,19 @@
                 {{ data?.judgeConfig.stackLimit ?? 0 }}
               </a-descriptions-item>
             </a-descriptions>
+            <MdViewer :value="data?.description"/>
           </a-card>
-          <br>
-          <a-select :style="{width:'320px'}" placeholder="请选择编程语言">
+        </a-col>
+        <a-col :md="12" :xs="24">
+          <CodeEditor :language="language"></CodeEditor>
+          <a-divider></a-divider>
+          <a-select :style="{width:'320px',marginRight: '20px'}"
+                    placeholder="请选择编程语言" v-model:model-value="language">
             <a-option>Java</a-option>
             <a-option>C</a-option>
             <a-option>Golang</a-option>
           </a-select>
-        </a-col>
-        <a-col :md="12" :xs="24">
-          <CodeEditor></CodeEditor>
+          <a-button type="primary" @click="doSubmit">提交</a-button>
         </a-col>
       </a-row>
     </a-space>
@@ -40,7 +42,7 @@
 <script setup lang="ts">
 import CodeEditor from "@/components/CodeEditor.vue";
 import {onMounted, withDefaults, defineProps, ref} from "vue";
-import {QuestionControllerService, QuestionVO} from "../../../generated";
+import {QuestionControllerService, QuestionSubmitControllerService, QuestionVO} from "../../../generated";
 import message from "@arco-design/web-vue/es/message";
 import MdViewer from "@/components/MdViewer.vue";
 
@@ -53,6 +55,12 @@ const props = withDefaults(defineProps<Props>(), {
 })
 
 const data = ref<QuestionVO>();
+const language = ref();
+
+const doSubmit = () => {
+  console.log()
+  //QuestionSubmitControllerService.submitAnswerUsingPost()
+}
 const loadData = async () => {
   const res = await QuestionControllerService.getQuestionVoByIdUsingGet(props.id);
   if (res.code === 0) {
